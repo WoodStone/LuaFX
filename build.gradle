@@ -1,0 +1,45 @@
+group 'no.vestein.luafx'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+// Declares binary plugin and its required JavaFX classpath
+apply from: "http://dl.bintray.com/content/shemnon/javafx-gradle/8.1.1/javafx.plugin"
+
+sourceCompatibility = 1.8
+
+jar {
+    manifest {
+        attributes 'Class-Path': 'luaj-jse.jar'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile group: 'org.luaj', name: 'luaj-jse', version: '3.0.1'
+}
+
+// Configures plugin
+javafx {
+    // Points to JDK and its JavaFX libraries, also declares target runtime JDK
+    javaRuntime = 'C:/Program Files/Java/jdk1.8.0_60'
+
+    // Application name and ID presented by target OS
+    appID 'LuaFX'
+    appName 'LuaFX'
+
+    // Main class of application
+    mainClass 'no.vestein.luafx.LuaFX'
+
+    // JVM arguments, system properties, application command line arguments
+    jvmArgs = ['-XX:+AggressiveOpts', '-XX:CompileThreshold=1']
+    systemProperties = ['prism.disableRegionCaching':'true']
+    arguments = ['-l', '--fast']
+}
+
+String getProjectProperty(String propertyName) {
+    project.hasProperty(propertyName) ? project.property(propertyName) : null
+}
