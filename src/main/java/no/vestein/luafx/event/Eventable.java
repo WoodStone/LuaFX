@@ -1,4 +1,4 @@
-package no.vestein.luafx;
+package no.vestein.luafx.event;
 
 /**
  * Created by Vestein on 25.01.2016.

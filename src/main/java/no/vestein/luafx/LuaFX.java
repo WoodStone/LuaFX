@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import no.vestein.luafx.event.EventBus;
 import no.vestein.luafx.fx.SimpleStackPane;
 
 /**

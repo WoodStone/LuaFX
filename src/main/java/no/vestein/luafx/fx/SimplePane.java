@@ -2,7 +2,8 @@ package no.vestein.luafx.fx;
 
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
-import no.vestein.luafx.Eventable;
+import no.vestein.luafx.event.Event;
+import no.vestein.luafx.event.Eventable;
 import no.vestein.luafx.LuaFX;
 
 import java.util.HashMap;
@@ -25,8 +26,12 @@ public class SimplePane extends Pane implements Eventable {
     this.ID = ID;
 
     setOnMouseClicked(mouseEvent -> {
-      LuaFX.EVENT_BUS.post(this);
+      LuaFX.EVENT_BUS.post(this, Event.MOUSE_CLICKED);
     });
+    setOnMouseEntered(mouseEvent -> {
+      LuaFX.EVENT_BUS.post(this, Event.MOUSE_ENTERED);
+    });
+
   }
 
   public void setColor() {

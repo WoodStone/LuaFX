@@ -1,4 +1,4 @@
-package no.vestein.luafx;
+package no.vestein.luafx.event;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,10 +16,10 @@ public class EventBus {
     bus = new HashMap<>();
   }
 
-  public void post(Eventable eventable) {
+  public void post(Eventable eventable, Event event) {
     if (bus.containsKey(eventable.getID())) {
       for (EventListener listener : bus.get(eventable.getID())) {
-        listener.update(eventable.getID());
+        listener.update(eventable.getID(), event);
       }
     }
   }
