@@ -1,6 +1,8 @@
 package no.vestein.luafx.lua.function;
 
-import org.luaj.vm2.LuaTable;
+import no.vestein.luafx.LuaFX;
+import no.vestein.luafx.event.Event;
+import no.vestein.luafx.event.EventListener;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.TwoArgFunction;
@@ -8,7 +10,7 @@ import org.luaj.vm2.lib.TwoArgFunction;
 /**
  * Created by Vestein on 25.01.2016.
  */
-public class os extends TwoArgFunction {
+public class jos extends TwoArgFunction {
 
   @Override
   public LuaValue call(LuaValue modname, LuaValue env) {
@@ -16,7 +18,7 @@ public class os extends TwoArgFunction {
     library.set("sleep", new sleep());
     library.set("eventBus", new eventBus());
 
-    env.set("os", library);
+    env.set("javaOS", library);
     env.get("package").get("loaded").set("os", library);
     return library;
   }
@@ -33,13 +35,23 @@ public class os extends TwoArgFunction {
     }
   }
 
-  static class eventBus extends OneArgFunction {
+  static class eventBus extends OneArgFunction implements EventListener {
+
+    private String returnValue = "";
+
+    public eventBus() {
+      LuaFX.EVENT_BUS.register(Event.MOUSE_CLICKED, this);
+    }
 
     @Override
     public LuaValue call(LuaValue arg) {
-      LuaTable table = new LuaTable();
+      LuaValue value = LuaValue.valueOf(returnValue);
+      return value;
+    }
 
-      return table;
+    @Override
+    public void update(String ID, Event event) {
+      returnValue = ID + ";" + event.toString();
     }
   }
 }
