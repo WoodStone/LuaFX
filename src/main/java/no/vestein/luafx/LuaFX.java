@@ -45,10 +45,8 @@ public class LuaFX extends Application {
   }
 
   public void testLua() {
-
-
-
-    LuaRunnable runnable = new LuaRunnable("src/main/java/no/vestein/luafx/lua/test.lua");
+    LuaRunnable runnable = new LuaRunnable("src/main/resources/lua/test.lua");
+    runnable.addLib("src/main/resources/lua/os.lua");
     Thread threadLua = new Thread(runnable);
 
     threadLua.start();

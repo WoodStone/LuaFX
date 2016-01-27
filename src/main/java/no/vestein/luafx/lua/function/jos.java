@@ -3,6 +3,7 @@ package no.vestein.luafx.lua.function;
 import no.vestein.luafx.LuaFX;
 import no.vestein.luafx.event.Event;
 import no.vestein.luafx.event.EventListener;
+import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.TwoArgFunction;
@@ -18,8 +19,8 @@ public class jos extends TwoArgFunction {
     library.set("sleep", new sleep());
     library.set("eventBus", new eventBus());
 
-    env.set("javaOS", library);
-    env.get("package").get("loaded").set("os", library);
+    env.set("jos", library);
+    env.get("package").get("loaded").set("jos", library);
     return library;
   }
 
@@ -27,7 +28,7 @@ public class jos extends TwoArgFunction {
     @Override
     public LuaValue call(LuaValue arg) {
       try {
-        Thread.sleep(arg.toint() * 1000);
+        Thread.sleep(arg.toint());
       } catch (InterruptedException e) {
 
       }
@@ -37,7 +38,8 @@ public class jos extends TwoArgFunction {
 
   static class eventBus extends OneArgFunction implements EventListener {
 
-    private String returnValue = "";
+    private String eventID = "";
+    private String eventType = "";
 
     public eventBus() {
       LuaFX.EVENT_BUS.register(Event.MOUSE_CLICKED, this);
@@ -45,13 +47,20 @@ public class jos extends TwoArgFunction {
 
     @Override
     public LuaValue call(LuaValue arg) {
-      LuaValue value = LuaValue.valueOf(returnValue);
-      return value;
+      LuaTable table = (LuaTable) arg;
+      table.set("id", eventID.isEmpty() ? LuaValue.NIL : LuaValue.valueOf(eventID));
+      table.set("type", eventType.isEmpty() ? LuaValue.NIL : LuaValue.valueOf(eventType));
+
+      eventID = "";
+      eventType = "";
+
+      return table;
     }
 
     @Override
     public void update(String ID, Event event) {
-      returnValue = ID + ";" + event.toString();
+      eventID = ID;
+      eventType = event.name();
     }
   }
 }

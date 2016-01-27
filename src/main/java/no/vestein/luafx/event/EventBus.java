@@ -10,33 +10,31 @@ import java.util.Map;
  */
 public class EventBus {
 
-  private Map<String, List<EventListener>> bus;
+  private Map<Event, List<EventListener>> bus;
 
   public EventBus() {
     bus = new HashMap<>();
+
+    for (Event event : Event.values()) {
+      bus.put(event, new ArrayList<>());
+    }
   }
 
   public void post(Eventable eventable, Event event) {
-    if (bus.containsKey(eventable.getID())) {
-      for (EventListener listener : bus.get(eventable.getID())) {
-        listener.update(eventable.getID(), event);
-      }
+    for (EventListener listener : bus.get(event)) {
+      listener.update(eventable.getID(), event);
     }
   }
 
-  public void register(String eventID, EventListener listener) {
-    if (bus.containsKey(eventID)) {
-      bus.get(eventID).add(listener);
-    } else {
-      List<EventListener> listeners = new ArrayList<>();
-      listeners.add(listener);
-      bus.put(eventID, listeners);
+  public void register(Event event, EventListener listener) {
+    if (!bus.get(event).contains(listener)) {
+      bus.get(event).add(listener);
     }
   }
 
-  public void unRegister(String eventID, EventListener listener) {
-    if (bus.containsKey(eventID) && bus.get(eventID).contains(listener)) {
-      bus.get(eventID).remove(listener);
+  public void unRegister(Event event, EventListener listener) {
+    if (bus.get(event).contains(listener)) {
+      bus.get(event).remove(listener);
     }
   }
 

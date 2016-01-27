@@ -1,3 +1,5 @@
+require('os')
+
 jorda = ''
 
 local pane = {
@@ -11,18 +13,12 @@ function potet()
     local bool = true
     if bool then
         print(bool)
-        print("poteter")
         print(Number.pi());
         Gui.addNode('potet', pane)
-        print('test')
     end
 
-    while string.len(jorda) == 0 do
-        jorda = os.eventBus(jorda)
-        if string.len(jorda) > 0 then
-            print(jorda)
-        end
-    end
+    jorda = os.pullEvent()
+    Gui.removeNode(jorda['id'])
     wtf()
 
 end

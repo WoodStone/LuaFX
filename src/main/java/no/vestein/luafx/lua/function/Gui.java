@@ -33,12 +33,9 @@ public class Gui extends TwoArgFunction{
           final int y = node.get("y").toint();
           final int width = node.get("width").toint();
           final int height = node.get("height").toint();
-          System.out.println(x + "," + y + ";" + width + "," + height);
-          SimplePane pane = new SimplePane(x, y, width, height);
+          SimplePane pane = new SimplePane(key.toString(), x, y, width, height);
           pane.setStyle("-fx-background-color: #FF0000");
           LuaFX.root.addChild(key.toString(), pane);
-
-          System.out.println(LuaFX.root.getChildren().size());
       });
       return LuaValue.valueOf(true);
     }
