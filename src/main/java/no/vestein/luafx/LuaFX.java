@@ -16,6 +16,7 @@ public class LuaFX extends Application {
 
   public static SimpleStackPane root;
   public static EventBus EVENT_BUS;
+  public static Nodes NODES;
 
   public static void main(String[] args) {
     launch(args);
@@ -24,6 +25,7 @@ public class LuaFX extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     EVENT_BUS = new EventBus();
+    NODES = new Nodes();
 
     primaryStage.setTitle("Hello World!");
     Button btn = new Button();
@@ -36,7 +38,7 @@ public class LuaFX extends Application {
       }
     });
 
-    root = new SimpleStackPane();
+    root = new SimpleStackPane("root");
     root.getChildren().add(btn);
     primaryStage.setScene(new Scene(root, 300, 250));
     primaryStage.show();

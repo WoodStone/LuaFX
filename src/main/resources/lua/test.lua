@@ -14,11 +14,17 @@ function potet()
     if bool then
         print(bool)
         print(Number.pi());
-        Gui.addNode('potet', pane)
+        Gui.makeNode("pane", "potet", pane)
+        Gui.addChild("root", "potet")
+        Gui.setStyle("potet", "-fx-background-color: #FF0000; -fx-border-color: #000000;")
+        Gui.setStyle("root", "-fx-background-color: #00FF00;")
     end
 
-    jorda = os.pullEvent()
-    Gui.removeNode(jorda['id'])
+    while true do
+        jorda = os.pullEvent()
+        Gui.removeChild("root", jorda['id'])
+    end
+
     wtf()
 
 end

@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * Created by Vestein on 25.01.2016.
  */
-public class SimplePane extends Pane implements Eventable {
+public class SimplePane extends Pane implements Simple, Eventable {
 
   private final String ID;
   protected Map<String, Node> children = new HashMap<>();
@@ -25,6 +25,8 @@ public class SimplePane extends Pane implements Eventable {
     setMaxSize(width, height);
     this.ID = ID;
 
+    LuaFX.NODES.add(this);
+
     setOnMouseClicked(mouseEvent -> {
       LuaFX.EVENT_BUS.post(this, Event.MOUSE_CLICKED);
     });
@@ -36,6 +38,10 @@ public class SimplePane extends Pane implements Eventable {
 
   public void setColor() {
     //TODO
+  }
+
+  public void addChild(Simple node) {
+    addChild(node.getID(), (Node) node);
   }
 
   public void addChild(String key, Node node) {
